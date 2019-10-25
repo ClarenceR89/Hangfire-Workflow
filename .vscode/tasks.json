@@ -7,17 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/Dashboard/Dashboard.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "buildWorker",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/Worker/Worker.csproj"
+                "${workspaceFolder}/HangfireWorkflow.sln"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -1,0 +1,54 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.122.1/containers/dotnetcore-3.1
+{
+	"name": "Hangfire Workflow",
+	"dockerComposeFile": [
+		"../rimu-meta-eu1-devtools/docker-compose.yml",
+		"../rimu-meta-eu1-devtools/Stacks/docker-compose.crawler.yml",
+		"../rimu-meta-eu1-devtools/Stacks/docker-compose.rafiki.yml",
+		"./docker-compose.yml"
+	],
+	"service": "hangfire-workflow",
+	"workspaceFolder": "/workspace",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"runArgs": [
+		"-v",
+		"/var/run/docker.sock:/var/run/docker.sock"
+	],
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-dotnettools.csharp",
+		"ms-azuretools.vscode-docker",
+		"formulahendry.dotnet",
+		"jchannon.csharpextensions",
+		"kevinkyang.auto-comment-blocks",
+		"thezhir.vscode-snippets",
+		"ms-vsliveshare.vsliveshare"
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [5000, 5001],
+	// [Optional] To reuse of your local HTTPS dev cert, first export it locally using this command:
+	//  * Windows PowerShell:
+	//     dotnet dev-certs https --trust; dotnet dev-certs https -ep "$env:USERPROFILE/.aspnet/https/aspnetapp.pfx" -p "SecurePwdGoesHere"
+	//  * macOS/Linux terminal:
+	//     dotnet dev-certs https --trust; dotnet dev-certs https -ep "${HOME}/.aspnet/https/aspnetapp.pfx" -p "SecurePwdGoesHere"
+	//
+	// Next, after running the command above, uncomment lines in the 'mounts' and 'remoteEnv' lines below,
+	// and open / rebuild the container so the settings take effect.
+	//
+	"mounts": [
+		// "source=${env:HOME}${env:USERPROFILE}/.aspnet/https,target=/home/vscode/.aspnet/https,type=bind"
+	],
+	"remoteEnv": {
+		"ASPNETCORE_ENVIRONMENT": "Development"
+		// "ASPNETCORE_Kestrel__Certificates__Default__Password": "SecurePwdGoesHere",
+		// "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/vscode/.aspnet/https/aspnetapp.pfx",
+	}
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "dotnet restore",
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}

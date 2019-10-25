@@ -1,0 +1,38 @@
+version: "3"
+services:
+    redis:
+        build: src/Infra/Redis/
+        container_name: hf-redis
+        ports:
+            - "127.0.0.1:26379:6379"
+        networks:
+            - frontend
+            - backend
+    # dashboard:
+    #     build: ./src/dashboard
+    #     ports:
+    #         - ""
+    #     networks:
+    #         - frontend
+    #     volumes:
+    #         - ./src/:/src/
+
+#   worker:
+#     build:
+#         context: ./src
+#         dockerfile: ./Worker/Dockerfile
+#         args:
+#             - BUILDMODE
+#     networks:
+#         - backend
+#     volumes:
+#         - "./Worker/Dockerfile:/app/Dockerfile"
+#     deploy:
+#         mode: replicated
+#         replicas: 3
+
+networks:
+    frontend:
+    backend:
+# volumes:
+#     persistent:

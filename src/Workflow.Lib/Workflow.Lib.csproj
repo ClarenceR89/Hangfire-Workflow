@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
-    <PackageReference Include="WorkflowCore" Version="2.1.1" />
-    <PackageReference Include="WorkflowCore.Providers.Redis" Version="2.0.0" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.2.2" />
+    <PackageReference Include="WorkflowCore" Version="3.1.6" />
+    <PackageReference Include="WorkflowCore.Providers.Redis" Version="3.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>

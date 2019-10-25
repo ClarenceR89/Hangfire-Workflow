@@ -1,0 +1,73 @@
+# Autosave files
+*~
+
+# build
+[Oo]bj/
+[Bb]in/
+packages/
+TestResults/
+.pids_tmp/
+
+# publish
+publish/
+
+# globs
+Makefile.in
+*.DS_Store
+*.sln.cache
+*.suo
+*.cache
+*.pidb
+*.userprefs
+*.usertasks
+config.log
+config.make
+config.status
+aclocal.m4
+install-sh
+autom4te.cache/
+*.user
+*.tar.gz
+tarballs/
+test-results/
+Thumbs.db
+
+# Mac bundle stuff
+*.dmg
+*.app
+
+# resharper
+*_Resharper.*
+*.Resharper
+
+# dotCover
+*.dotCover
+
+# Rider
+.idea
+
+# node_modules
+**/node_modules
+**/obj
+**/bin
+
+DevelopmentOverrides.json
+solution-explorer
+
+*.log
+
+.env
+.env.prod
+docker-compose.yml
+Dockerfile
+Jenkinsfile
+Vagrantfile
+*.sql
+*.md
+*.DotSettings
+/*/.vscode
+/*/.vs
+/*/.git
+/*/.gitignore
+/*/.dockerignore
+/*/.bash

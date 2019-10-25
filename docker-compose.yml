@@ -1,40 +1,43 @@
-version: '3'
+version: "3.4"
+
 services:
-    redis:
-        build: ./infra/Redis/
-        container_name: hf-redis
-        ports:
-            - "127.0.0.1:26379:6379"
-        networks:
-            - frontend
-            - backend
+  dashboard:
+    container_name: hf-dashboard
+    build:
+      context: .
+      dockerfile: src/Dashboard/Dockerfile
+      args:
+        - BUILDMODE
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
 
-    # dashboard:
-    #     build: ./src/dashboard
-    #     ports:
-    #         - ""
-    #     networks:
-    #         - frontend
-    #     volumes:
-    #         - ./src/:/src/
+  worker:
+    container_name: hf-worker
+    build:
+      context: .
+      dockerfile: src/Worker/Dockerfile
+      args:
+        - BUILDMODE
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
 
-#   worker:
-#     build:
-#         context: ./src
-#         dockerfile: ./Worker/Dockerfile
-#         args:
-#             - BUILDMODE
-#     networks:
-#         - backend
-#     volumes:
-#         - "./Worker/Dockerfile:/app/Dockerfile"
-#     deploy:
-#         mode: replicated
-#         replicas: 3
+  workflow.api:
+    container_name: hf-workflow-api
+    build:
+      context: .
+      dockerfile: src/Workflow.Api/Dockerfile
+      args:
+        - BUILDMODE
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
 
 networks:
-    frontend:
-    backend:
-
-# volumes:
-#     persistent:
+  app-network:
+    external:
+      name: rimu-meta-eu1-devtools_app-network

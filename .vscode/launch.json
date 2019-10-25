@@ -8,10 +8,30 @@
             "name": "Worker",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "buildWorker",
-            "program": "${workspaceFolder}/src/Worker/bin/Debug/netcoreapp2.2/Worker.dll",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Worker/bin/Debug/netcoreapp3.1/Worker.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Worker",
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/src/Worker/Views"
+            }
+        },
+        {
+            "name": "Workflow API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Workflow.Api/bin/Debug/netcoreapp3.1/Workflow.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -29,9 +49,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Dashboard/bin/Debug/netcoreapp2.2/Dashboard.dll",
+            "program": "${workspaceFolder}/src/Dashboard/bin/Debug/netcoreapp3.1/Dashboard.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Dashboard",
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -44,6 +64,5 @@
                 "/Views": "${workspaceFolder}/src/Dashboard/Views"
             }
         }
-
     ]
 }

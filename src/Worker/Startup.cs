@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using Hangfire.Lib.Extensions;
 using Workflow.Lib.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace Worker
 {
@@ -34,25 +35,28 @@ namespace Worker
             services.AddOptions();
             services.AddHangfireConnection(Redis);
             services.AddWorkflowWorker(Redis.Configuration);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
             app.AddHangfireServer();
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

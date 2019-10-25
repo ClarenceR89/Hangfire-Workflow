@@ -1,20 +1,25 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-alpine AS base
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS builder
 ARG BUILDMODE
-WORKDIR /app
-ADD . /app
+WORKDIR /build
+COPY . .
+RUN pwd && ls -lah
 RUN dotnet restore
+WORKDIR /build/src/Worker
 RUN dotnet build --no-restore -c ${BUILDMODE}
 
-FROM build AS publish
+FROM builder AS publish
 ARG BUILDMODE
-RUN dotnet publish --no-build -c ${BUILDMODE} -o /app/out
+RUN dotnet publish --no-build -c ${BUILDMODE} -o /app
 
 FROM base AS final
-WORKDIR /app/out
+WORKDIR /app
 RUN ls -lah
-COPY --from=publish /app/out .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Worker.dll"]
