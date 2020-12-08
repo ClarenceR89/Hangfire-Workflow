@@ -1,0 +1,55 @@
+#-------------------------------------------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
+#-------------------------------------------------------------------------------------------------------------
+
+version: '3.4'
+services:
+    redis:
+        build:
+            context: .
+            dockerfile: ./infra/Redis/Dockerfile
+        container_name: redis_hf
+        ports:
+            - "127.0.0.1:6379:6379"
+        networks:
+            - app-network
+
+    elastic:
+        build:
+            context: .
+            dockerfile: ./infra/ElasticSearch/Dockerfile
+        container_name: elastic_hf
+        ports:
+            - "127.0.0.1:9200:9200"
+            - "127.0.0.1:9300:9300"
+        environment:
+            - START_DAEMON=true
+        volumes:
+            - elasticdata:/usr/share/elasticsearch/data
+            - ./infra/ElasticSearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+        networks:
+            - app-network
+
+    kibana:
+        build:
+            context: .
+            dockerfile: ./infra/ElasticSearch/kibana.Dockerfile
+        container_name: kibana_hf
+        depends_on:
+            - elastic
+        ports:
+            - "127.0.0.1:5601:5601"
+        environment:
+            - ELASTICSEARCH_URL=http://elastic_hf:9200
+        volumes:
+            - ./infra/ElasticSearch/kibana.yml:/usr/share/kibana/config/kibana.yml
+        networks:
+            - app-network
+
+volumes:
+    elasticdata:
+
+networks:
+    app-network:
+        driver: bridge

@@ -1,37 +1,46 @@
 using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using StackExchange.Redis;
-using WorkflowCore;
+using Microsoft.Extensions.Hosting;
+using WorkflowCore.Interface;
+using Workflow.Client;
+using Workflow.Steps;
+using Workflow.Workflows;
+using Nest;
+using Elasticsearch.Net;
 
-namespace Workflow.Lib.Extensions
+namespace Workflow.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddWorkflowWorker(this IServiceCollection services, string redisConnection)
+        public static IServiceCollection AddWorkflowServices(this IServiceCollection services)
         {
-            services.AddWorkflow(cfg =>
-            {
-                cfg.UseRedisPersistence(redisConnection, "app-name");
-                cfg.UseRedisLocking(redisConnection);
-                cfg.UseRedisQueues(redisConnection, "app-name");
-                cfg.UseRedisEventHub(redisConnection, "channel-name");
-            });
+            // Add StepBody and StepBodyAsync that require IoC to the service collection here
+            services.TryAddTransient<ConsoleLogStep>();
+            services.TryAddTransient<EndWorkflowStep>();
+            services.TryAddTransient<StartWorkflowStep>();
 
             return services;
         }
-
-        public static IServiceCollection AddWorkflowServices(this IServiceCollection services, string redisConnection)
+    }
+    public static class RuntimePipelineExtensions
+    {
+        public static IApplicationBuilder AddWorkflowHost(this IApplicationBuilder app)
         {
-            services.AddWorkflow(cfg =>
-            {
-                cfg.UseRedisPersistence(redisConnection, "app-name");
-            });
+            var host = app.ApplicationServices.GetService<IWorkflowHost>();
 
-            services.AddSingleton<IWorkflowService, WorkflowService>();
+            host.AddWorkflows();
 
-            return services;
+            return app;
+        }
+
+        public static IWorkflowHost AddWorkflows(this IWorkflowHost host)
+        {
+            host.RegisterWorkflow<HelloWorld>();
+
+            return host;
         }
     }
 }

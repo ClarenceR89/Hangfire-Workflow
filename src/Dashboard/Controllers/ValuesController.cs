@@ -12,8 +12,8 @@ namespace Dashboard.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public readonly IWorkflowService _workflow;
-        public ValuesController(IWorkflowService workflow) {
+        public readonly IWorkflowDefinitionClient _workflow;
+        public ValuesController(IWorkflowDefinitionClient workflow) {
             _workflow = workflow;
         }
 

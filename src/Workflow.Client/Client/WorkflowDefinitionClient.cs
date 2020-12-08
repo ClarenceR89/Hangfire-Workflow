@@ -8,16 +8,16 @@ using WorkflowCore.Services;
 using WorkflowCore.Services.DefinitionStorage;
 using WorkflowCore.Interface;
 
-namespace Workflow.Lib
+namespace Workflow.Client
 {
-    public class WorkflowService : IWorkflowService
+    public class WorkflowDefinitionClient : IWorkflowDefinitionClient
     {
         private readonly IDefinitionLoader _definitionLoader;
-        public WorkflowService(IDefinitionLoader definitionLoader) {
+        public WorkflowDefinitionClient(IDefinitionLoader definitionLoader) {
             _definitionLoader = definitionLoader;
         }
 
-        public IWorkflowService AddWorkflowJson(string definition) {
+        public IWorkflowDefinitionClient AddWorkflowJson(string definition) {
             _definitionLoader.LoadDefinition(definition, Deserializers.Json);
 
             return this;
