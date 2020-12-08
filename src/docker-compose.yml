@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  dashboard:
+    image: ${DOCKER_REGISTRY-}dashboard
+    build:
+      context: .
+      dockerfile: Dashboard/Dockerfile
+
+  worker:
+    image: ${DOCKER_REGISTRY-}worker
+    build:
+      context: .
+      dockerfile: Worker/Dockerfile
+
+
+  workflow.api:
+    image: ${DOCKER_REGISTRY-}workflow
+    build:
+      context: .
+      dockerfile: Workflow.Api/Dockerfile
+
+  elastic:
+      image: elasticsearch:6.5.4
+      expose:
+        - 9200    
+
+  mongo:
+    image: mongo:3.6
+    expose: 
+      - 27017
