@@ -23,7 +23,7 @@ namespace Dashboard
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            Redis = configuration.GetRedisConnection();
         }
 
         public IConfiguration Configuration { get; }
@@ -33,7 +33,7 @@ namespace Dashboard
         {
             services.AddOptions();
             services.AddHangfireConnection(Redis);
-            services.AddWorkflowServices(Redis.Configuration);
+            services.AddWorkflowServices();
             services.AddSwaggerGen(config => {
                 config.SwaggerDoc("v1", new Info { Title = "Workflow API", Version = "v1" });
             });
