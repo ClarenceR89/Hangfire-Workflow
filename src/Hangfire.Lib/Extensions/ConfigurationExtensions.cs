@@ -8,7 +8,7 @@ namespace Hangfire.Extensions
     {
         public static ConnectionMultiplexer GetRedisConnection(this IConfiguration configuration)
         {
-            return ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            return ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis"));
         }
     }
 }
